@@ -44,8 +44,8 @@ if st.sidebar.button("Run Analysis"):
             st.subheader("AI Analyst Insight")
             recent_data = hist.tail(10).to_string()
         # Updated Prompt for 2026 Agents
-    prompt = f"""Analyze {ticker} with this data: {recent_data}. 
-    Provide a BUY/SELL/HOLD recommendation with technical reasoning."""
+            prompt = f"""Analyze {ticker} with this data: {recent_data}. 
+            Provide a BUY/SELL/HOLD recommendation with technical reasoning."""
     
             with st.spinner("Agent is reasoning..."):
         # Updated method call for the new SDK
