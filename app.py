@@ -10,12 +10,8 @@ import requests
 st.set_page_config(page_title="AI Stock Agent 2026", layout="wide", page_icon="📈")
 
 # Accessing Gemini API
-try:
     API_KEY = st.secrets["GOOGLE_API_KEY"]
     client = genai.Client(api_key=API_KEY)
-except Exception:
-    st.error("Missing GOOGLE_API_KEY in Streamlit Secrets.")
-    st.stop()
 
 # --- HELPER FUNCTIONS ---
 
