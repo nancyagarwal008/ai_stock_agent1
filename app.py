@@ -34,8 +34,8 @@ if st.sidebar.button("Run AI Analysis"):
         hist['RSI'] = 100 - (100 / (1 + hist['Close'].diff().where(hist['Close'].diff() > 0, 0).rolling(14).mean() / 
                                      -hist['Close'].diff().where(hist['Close'].diff() < 0, 0).rolling(14).mean()))
        if hist.empty:
-        st.error(f"Could not find data for {ticker}. Check the symbol.")
-        st.stop()
+            st.error(f"Could not find data for {ticker}. Check the symbol.")
+            st.stop()
 
            # 6. VISUALIZATION
         col1, col2 = st.columns([2, 1])
