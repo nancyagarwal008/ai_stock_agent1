@@ -29,16 +29,15 @@ if st.sidebar.button("Run AI Analysis"):
         stock = yf.Ticker(ticker)
         hist = stock.history(period=period)
         
-    if hist.empty:
-        st.error(f"Could not find data for {ticker}. Check the symbol.")
-        st.stop()
-
         # 5. FEATURE ENGINEERING (Technical Indicators)
         hist['SMA_20'] = hist['Close'].rolling(window=20).mean()
         hist['RSI'] = 100 - (100 / (1 + hist['Close'].diff().where(hist['Close'].diff() > 0, 0).rolling(14).mean() / 
                                      -hist['Close'].diff().where(hist['Close'].diff() < 0, 0).rolling(14).mean()))
+       if hist.empty:
+        st.error(f"Could not find data for {ticker}. Check the symbol.")
+        st.stop()
 
-        # 6. VISUALIZATION
+           # 6. VISUALIZATION
         col1, col2 = st.columns([2, 1])
         with col1:
             fig = go.Figure(data=[go.Candlestick(x=hist.index, open=hist['Open'], high=hist['High'], low=hist['Low'], close=hist['Close'])])
