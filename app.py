@@ -1,14 +1,17 @@
 import streamlit as st
 import yfinance as yf
-import google.generativeai as genai
+from google import genai  # Updated import
 import plotly.graph_objects as go
 import pandas as pd
 
 # 1. CONFIGURATION
 st.set_page_config(page_title="AI Stock Analyst", layout="wide")
 GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
-genai.configure(api_key=GOOGLE_API_KEY)
+client = genai.Client(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-1.5-flash')
+
+# Use the latest stable model (Gemini 2.5 Flash is now the standard)
+MODEL_ID = "gemini-2.5-flash"
 
 # 2. APP UI HEADER
 st.title("📈 Autonomous AI Stock Agent")
@@ -40,11 +43,17 @@ if st.sidebar.button("Run Analysis"):
         with col2:
             st.subheader("AI Analyst Insight")
             recent_data = hist.tail(10).to_string()
-            prompt = f"Act as a stock expert. Analyze this data for {ticker}: {recent_data}. Provide a BUY, SELL, or HOLD recommendation with 3 bullet points explaining why."
-            
-            with st.spinner("Agent is thinking..."):
-                response = model.generate_content(prompt)
-                st.write(response.text)
+        # Updated Prompt for 2026 Agents
+    prompt = f"""Analyze {ticker} with this data: {recent_data}. 
+    Provide a BUY/SELL/HOLD recommendation with technical reasoning."""
+    
+            with st.spinner("Agent is reasoning..."):
+        # Updated method call for the new SDK
+        response = client.models.generate_content(
+            model=MODEL_ID,
+            contents=prompt
+        )
+        st.write(response.text)
 
         # 8. DATA TABLE
         st.subheader("Raw Technical Data")
