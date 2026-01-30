@@ -80,7 +80,7 @@ with tab1:
                 # Trigger AI
                 prompt = f"Analyze {name} ({ticker}). Latest data:\n{hist.tail(5).to_string()}\nProvide a BUY/SELL/HOLD signal."
                 try:
-                    response = client.models.generate_content(model="gemini-2.0-flash", contents=[prompt])
+                    response = client.models.generate_content(model="gemini-3-flash-preview", contents=[prompt])
                     st.session_state.analysis_text = response.text
                 except Exception as e:
                     st.error(f"AI Error: {e}")
